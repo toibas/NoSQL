@@ -1,2 +1,1 @@
-# NoSQL
 NoSQL Projekt
