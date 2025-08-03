@@ -1,4 +1,7 @@
 venv/
 logs/
-logcache_test/
+**/logcache_test/
+*.pyc
+__pycache__/
+*.log
 
