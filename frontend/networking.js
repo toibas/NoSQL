@@ -37,3 +37,24 @@ async function testDatabase() {
     const result = await apiCall(`${API_BASE}/test`);
     showResult('testResult', result);
 }
+
+
+async function uploadLog() {
+      const fileInput = document.getElementById('logfileInput');
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Bitte wähle eine .log-Datei aus.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("logfile", file);
+
+    fetch("http://localhost:5000/upload-log", {
+    method: "POST",
+    body: formData
+    })
+      .then(response => response.json())
+      .then(data => alert(data.message || data.error))
+      .catch(error => alert("Fehler beim Upload: " + error));
+    }

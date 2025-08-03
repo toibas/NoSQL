@@ -1,0 +1,91 @@
+448ms at 2025-02-03 11:26:32,448 -> __main___INIT:INFO:  Logger created.
+523ms at 2025-02-03 11:26:32,523 -> __main___INIT:INFO:  connected to the MySQL-Database.
+523ms at 2025-02-03 11:26:32,523 -> __main__:INFO:  Logger created.
+540ms at 2025-02-03 11:27:11,540 -> __main___INIT:INFO:  Logger created.
+627ms at 2025-02-03 11:27:11,627 -> __main___INIT:INFO:  connected to the MySQL-Database.
+628ms at 2025-02-03 11:27:11,628 -> __main__:INFO:  Logger created.
+73ms at 2025-02-03 11:27:54,073 -> __main___INIT:INFO:  Logger created.
+145ms at 2025-02-03 11:27:54,145 -> __main___INIT:INFO:  connected to the MySQL-Database.
+146ms at 2025-02-03 11:27:54,146 -> __main__:INFO:  Logger created.
+963ms at 2025-02-03 11:29:12,963 -> __main___INIT:INFO:  Logger created.
+55ms at 2025-02-03 11:29:13,055 -> __main___INIT:INFO:  connected to the MySQL-Database.
+55ms at 2025-02-03 11:29:13,055 -> __main__:INFO:  Logger created.
+601ms at 2025-02-03 11:30:20,601 -> __main___INIT:INFO:  Logger created.
+663ms at 2025-02-03 11:30:20,663 -> __main___INIT:INFO:  connected to the MySQL-Database.
+663ms at 2025-02-03 11:30:20,663 -> __main__:INFO:  Logger created.
+794ms at 2025-02-03 11:36:13,794 -> __main___INIT:INFO:  Logger created.
+873ms at 2025-02-03 11:36:13,873 -> __main___INIT:INFO:  connected to the MySQL-Database.
+874ms at 2025-02-03 11:36:13,874 -> __main__:INFO:  Logger created.
+698ms at 2025-02-03 11:39:18,698 -> __main___INIT:INFO:  Logger created.
+764ms at 2025-02-03 11:39:18,764 -> __main___INIT:INFO:  connected to the MySQL-Database.
+765ms at 2025-02-03 11:39:18,765 -> __main__:INFO:  Logger created.
+778ms at 2025-02-03 11:39:31,778 -> __main___INIT:INFO:  Logger created.
+839ms at 2025-02-03 11:39:31,839 -> __main___INIT:INFO:  connected to the MySQL-Database.
+840ms at 2025-02-03 11:39:31,840 -> __main__:INFO:  Logger created.
+213ms at 2025-02-03 11:40:03,213 -> __main___INIT:INFO:  Logger created.
+280ms at 2025-02-03 11:40:03,280 -> __main___INIT:INFO:  connected to the MySQL-Database.
+281ms at 2025-02-03 11:40:03,281 -> __main__:INFO:  Logger created.
+953ms at 2025-02-03 11:40:49,953 -> __main___INIT:INFO:  Logger created.
+19ms at 2025-02-03 11:40:50,019 -> __main___INIT:INFO:  connected to the MySQL-Database.
+19ms at 2025-02-03 11:40:50,019 -> __main__:INFO:  Logger created.
+526ms at 2025-02-03 11:41:07,526 -> __main___INIT:INFO:  Logger created.
+591ms at 2025-02-03 11:41:07,591 -> __main___INIT:INFO:  connected to the MySQL-Database.
+592ms at 2025-02-03 11:41:07,592 -> __main__:INFO:  Logger created.
+594ms at 2025-02-03 11:41:07,594 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+252ms at 2025-02-03 11:41:58,252 -> __main___INIT:INFO:  Logger created.
+320ms at 2025-02-03 11:41:58,320 -> __main___INIT:INFO:  connected to the MySQL-Database.
+321ms at 2025-02-03 11:41:58,321 -> __main__:INFO:  Logger created.
+323ms at 2025-02-03 11:41:58,323 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+42ms at 2025-02-03 11:42:44,042 -> __main___INIT:INFO:  Logger created.
+107ms at 2025-02-03 11:42:44,107 -> __main___INIT:INFO:  connected to the MySQL-Database.
+108ms at 2025-02-03 11:42:44,108 -> __main__:INFO:  Logger created.
+110ms at 2025-02-03 11:42:44,110 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+965ms at 2025-02-03 11:44:14,965 -> __main___INIT:INFO:  Logger created.
+47ms at 2025-02-03 11:44:15,047 -> __main___INIT:INFO:  connected to the MySQL-Database.
+47ms at 2025-02-03 11:44:15,047 -> __main__:INFO:  Logger created.
+49ms at 2025-02-03 11:44:15,049 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+226ms at 2025-02-03 11:44:29,226 -> __main___INIT:INFO:  Logger created.
+331ms at 2025-02-03 11:44:29,331 -> __main___INIT:INFO:  connected to the MySQL-Database.
+332ms at 2025-02-03 11:44:29,332 -> __main__:INFO:  Logger created.
+334ms at 2025-02-03 11:44:29,334 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+339ms at 2025-02-03 11:44:29,339 -> __main__:WARNING:  Movie with id 3 does not exist in watched_movies for user test@gmail.com!
+772ms at 2025-02-03 11:44:40,772 -> __main___INIT:INFO:  Logger created.
+839ms at 2025-02-03 11:44:40,839 -> __main___INIT:INFO:  connected to the MySQL-Database.
+839ms at 2025-02-03 11:44:40,839 -> __main__:INFO:  Logger created.
+841ms at 2025-02-03 11:44:40,841 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+245ms at 2025-02-03 15:41:51,245 -> __main___INIT:INFO:  Logger created.
+319ms at 2025-02-03 15:41:51,319 -> __main___INIT:INFO:  connected to the MySQL-Database.
+320ms at 2025-02-03 15:41:51,320 -> __main__:INFO:  Logger created.
+322ms at 2025-02-03 15:41:51,322 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+561ms at 2025-02-03 15:42:14,561 -> __main___INIT:INFO:  Logger created.
+660ms at 2025-02-03 15:42:14,660 -> __main___INIT:INFO:  connected to the MySQL-Database.
+660ms at 2025-02-03 15:42:14,660 -> __main__:INFO:  Logger created.
+662ms at 2025-02-03 15:42:14,662 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+611ms at 2025-02-03 18:43:38,611 -> __main___INIT:INFO:  Logger created.
+695ms at 2025-02-03 18:43:38,695 -> __main___INIT:INFO:  connected to the MySQL-Database.
+695ms at 2025-02-03 18:43:38,695 -> __main__:INFO:  Logger created.
+697ms at 2025-02-03 18:43:38,697 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+373ms at 2025-02-03 19:14:34,373 -> __main___INIT:INFO:  Logger created.
+501ms at 2025-02-03 19:14:34,501 -> __main___INIT:INFO:  connected to the MySQL-Database.
+502ms at 2025-02-03 19:14:34,502 -> __main__:INFO:  Logger created.
+504ms at 2025-02-03 19:14:34,504 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+920ms at 2025-02-03 19:15:12,920 -> __main___INIT:INFO:  Logger created.
+989ms at 2025-02-03 19:15:12,989 -> __main___INIT:INFO:  connected to the MySQL-Database.
+990ms at 2025-02-03 19:15:12,990 -> __main__:INFO:  Logger created.
+992ms at 2025-02-03 19:15:12,992 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+103ms at 2025-02-03 19:17:49,103 -> __main___INIT:INFO:  Logger created.
+166ms at 2025-02-03 19:17:49,166 -> __main___INIT:INFO:  connected to the MySQL-Database.
+167ms at 2025-02-03 19:17:49,167 -> __main__:INFO:  Logger created.
+169ms at 2025-02-03 19:17:49,169 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+351ms at 2025-02-03 19:18:33,351 -> __main___INIT:INFO:  Logger created.
+437ms at 2025-02-03 19:18:33,437 -> __main___INIT:INFO:  connected to the MySQL-Database.
+437ms at 2025-02-03 19:18:33,437 -> __main__:INFO:  Logger created.
+439ms at 2025-02-03 19:18:33,439 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+292ms at 2025-02-03 19:18:49,292 -> __main___INIT:INFO:  Logger created.
+372ms at 2025-02-03 19:18:49,372 -> __main___INIT:INFO:  connected to the MySQL-Database.
+372ms at 2025-02-03 19:18:49,372 -> __main__:INFO:  Logger created.
+375ms at 2025-02-03 19:18:49,375 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
+994ms at 2025-02-03 19:18:53,994 -> __main___INIT:INFO:  Logger created.
+75ms at 2025-02-03 19:18:54,075 -> __main___INIT:INFO:  connected to the MySQL-Database.
+76ms at 2025-02-03 19:18:54,076 -> __main__:INFO:  Logger created.
+78ms at 2025-02-03 19:18:54,078 -> __main__:INFO:  Login successful for user test with email test@gmail.com.
