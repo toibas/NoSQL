@@ -1,28 +1,54 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoSQL Frontend</title>
+  <meta charset="UTF-8" />
+  <title>Elasticsearch Log Analyse</title>
 </head>
 <body>
-    <h1>NoSQL Frontend</h1>
-    
-    <!-- API Test -->
-    <div>
-        <h2>1. API Test</h2>
-        <button onclick="testAPI()">API Testen</button>
-        <button onclick="testDatabase()">Elasticsearch Testen</button>
-        <div id="testResult" style="display:none;"></div>
-    </div>
+  <h1>Elasticsearch Log Analyse</h1>
 
-    <h2>Log-Datei hochladen</h2>
-    <input type="file" id="logfileInput" accept=".log">
+  <section>
+    <h2>Verbindung testen</h2>
+    <button onclick="testAPI()">API erreichbar?</button>
+    <button onclick="testDatabase()">Elasticsearch erreichbar?</button>
+    <pre id="testResult"></pre>
+  </section>
+
+  <section>
+    <h2>Log-Datei hochladen (.log oder .json)</h2>
+    <input type="file" id="logfileInput" />
     <button onclick="uploadLog()">Hochladen</button>
+    <pre id="uploadResult"></pre>
+  </section>
 
+  <section>
+    <h2>Suche in Logs</h2>
+    <input type="text" id="searchQuery" placeholder="Suchbegriff (message)" size="40" />
+    <select id="levelFilter">
+      <option value="">Level (alle)</option>
+      <option>INFO</option>
+      <option>WARN</option>
+      <option>ERROR</option>
+    </select>
+    <input type="text" id="componentFilter" placeholder="Komponente (optional)" />
+    <select id="timeFilter">
+      <option value="">Zeit (beliebig)</option>
+      <option value="now-1h/h">Letzte Stunde</option>
+      <option value="now-1d/d">Letzter Tag</option>
+      <option value="now-7d/d">Letzte 7 Tage</option>
+    </select>
+    <button onclick="searchLogs()">Suchen</button>
+    <button onclick="loadAllLogs()">Alle Logs anzeigen</button>
+    <pre id="searchResults"></pre>
+  </section>
 
+  <section>
+    <h2>Statistik: Anzahl pro Log-Level</h2>
+    <button onclick="getStats()">Level-Übersicht abrufen</button>
+    <pre id="statsResult"></pre>
+  </section>
 
-    <script src="config.js"></script>
-    <script src="networking.js"></script>
+  <script src="networking.js"></script>
+  <script src="config.js"></script> 
 </body>
 </html>
