@@ -31,6 +31,16 @@ class Database:
             print(f"Fehler: {e}")
             return False
 
+    def search(self, index, body):
+        res = self.session.post(f"{self.base_url}/{index}/_search", json=body)
+        res.raise_for_status()
+        return res.json()
+
+    def aggregate(self, index, body):
+        res = self.session.post(f"{self.base_url}/{index}/_search", json=body)
+        res.raise_for_status()
+        return res.json()
+
 
 
 

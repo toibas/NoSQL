@@ -1,17 +1,16 @@
 import os
 from flask import Flask, request
 from flask_cors import CORS
-from services.logfiles_service import LogfilesService
-from services.basic_services import HealthService
-from services.analytics_service import AnalyticsService
+from services.login_register_service import LoginRegisterService
 
 class FlaskApp:
-    def __init__(self, logfiles_service, health_service, analytics_service):
+    def __init__(self, logfiles_service, health_service, analytics_service, login_register_service):
         self.app = Flask(__name__)
         CORS(self.app)
         self.logfiles_service = logfiles_service
         self.health_service = health_service
         self.analytics_service = analytics_service
+        self.login_register_service = login_register_service
         self._setup_routes()
 
     def _setup_routes(self):
@@ -79,6 +78,22 @@ class FlaskApp:
                 return {"levels": counts}
             except Exception as e:
                 return {"error": str(e)}, 500
+
+        @self.app.route("/register", methods=["POST"])
+        def register():
+            data = request.get_json()
+            username = data.get("username")
+            password = data.get("password")
+            result = self.login_register_service.register(username, password)
+            return result, 200 if result.get("success") else 400
+
+        @self.app.route("/login", methods=["POST"])
+        def login():
+            data = request.get_json()
+            username = data.get("username")
+            password = data.get("password")
+            result = self.login_register_service.login(username, password)
+            return result, 200 if result.get("success") else 401
 
     def run(self, **kwargs):
         self.app.run(**kwargs)

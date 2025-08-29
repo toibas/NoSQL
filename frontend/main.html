@@ -22,33 +22,53 @@
   </section>
 
   <section>
-    <h2>Suche in Logs</h2>
-    <input type="text" id="searchQuery" placeholder="Suchbegriff (message)" size="40" />
-    <select id="levelFilter">
-      <option value="">Level (alle)</option>
-      <option>INFO</option>
-      <option>WARN</option>
-      <option>ERROR</option>
-    </select>
-    <input type="text" id="componentFilter" placeholder="Komponente (optional)" />
-    <select id="timeFilter">
-      <option value="">Zeit (beliebig)</option>
-      <option value="now-1h/h">Letzte Stunde</option>
-      <option value="now-1d/d">Letzter Tag</option>
-      <option value="now-7d/d">Letzte 7 Tage</option>
-    </select>
-    <button onclick="searchLogs()">Suchen</button>
-    <button onclick="loadAllLogs()">Alle Logs anzeigen</button>
-    <pre id="searchResults"></pre>
+    <button onclick="window.location.href='analyse.html'">Zur Analyse</button>
   </section>
 
-  <section>
-    <h2>Statistik: Anzahl pro Log-Level</h2>
-    <button onclick="getStats()">Level-Übersicht abrufen</button>
-    <pre id="statsResult"></pre>
-  </section>
+  <script src="config.js"></script>
+  <script>
+    async function apiCall(url, method = 'GET', data = null) {
+      try {
+        const options = { method };
+        if (data) {
+          options.headers = { 'Content-Type': 'application/json' };
+          options.body = JSON.stringify(data);
+        }
+        const res = await fetch(url, options);
+        return await res.json();
+      } catch (error) {
+        return { error: error.message };
+      }
+    }
 
-  <script src="networking.js"></script>
-  <script src="config.js"></script> 
+    async function testAPI() {
+      const result = await apiCall(`${API_BASE}/`);
+      document.getElementById('testResult').textContent = JSON.stringify(result, null, 2);
+    }
+
+    async function testDatabase() {
+      const result = await apiCall(`${API_BASE}/test`);
+      document.getElementById('testResult').textContent = JSON.stringify(result, null, 2);
+    }
+
+    async function uploadLog() {
+      const file = document.getElementById('logfileInput').files[0];
+      if (!file) return alert("Bitte Datei auswählen");
+
+      const formData = new FormData();
+      formData.append("logfile", file);
+
+      try {
+        const res = await fetch(`${API_BASE}/upload-log`, {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        document.getElementById("uploadResult").textContent = data.message || data.error || JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("uploadResult").textContent = "Fehler beim Upload";
+      }
+    }
+  </script>
 </body>
 </html>
