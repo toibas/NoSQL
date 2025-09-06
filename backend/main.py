@@ -7,6 +7,8 @@ from services.login_register_service import LoginRegisterService
 import logging
 
 def main():
+    """Einstiegspunkt der Anwendung.
+    """
     print("Starting NoSQL API Server...")
     db = Database()
     logfiles_service = LogfilesService(db)

@@ -22,35 +22,50 @@
   </section>
 
   <section>
+    <h3>Logs löschen</h3>
+    <button onclick="deleteLogs()">Alle Logs löschen</button>
+    <pre id="deleteResult"></pre>
+  </section>
+
+  <section>
+    <h2>Zur Analyse-Seite</h2>
     <button onclick="window.location.href='analyse.html'">Zur Analyse</button>
   </section>
 
   <script src="config.js"></script>
+  <script src="utils.js"></script>
   <script>
-    async function apiCall(url, method = 'GET', data = null) {
-      try {
-        const options = { method };
-        if (data) {
-          options.headers = { 'Content-Type': 'application/json' };
-          options.body = JSON.stringify(data);
-        }
-        const res = await fetch(url, options);
-        return await res.json();
-      } catch (error) {
-        return { error: error.message };
-      }
-    }
-
+    /**
+     * Testet, ob die API erreichbar ist und zeigt das Ergebnis an.
+     * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
+     */
     async function testAPI() {
-      const result = await apiCall(`${API_BASE}/`);
-      document.getElementById('testResult').textContent = JSON.stringify(result, null, 2);
+      const res = await apiCall(`${API_BASE}/`);
+      showResult('testResult', res.data || res.error);
     }
 
+    /**
+     * Testet, ob Elasticsearch erreichbar ist und zeigt das Ergebnis an.
+     * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
+     */
     async function testDatabase() {
-      const result = await apiCall(`${API_BASE}/test`);
-      document.getElementById('testResult').textContent = JSON.stringify(result, null, 2);
+      const res = await apiCall(`${API_BASE}/test`);
+      showResult('testResult', res.data || res.error);
     }
 
+    /**
+     * Löscht alle Logs aus der Datenbank und zeigt das Ergebnis an.
+     * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
+     */
+    async function deleteLogs() {
+      const res = await apiCall(`${API_BASE}/delete-logs`, "DELETE");
+      showResult("deleteResult", res.data.message || res.data.error || res.data);
+    }
+
+    /**
+     * Lädt eine Logdatei hoch und zeigt das Ergebnis an.
+     * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
+     */
     async function uploadLog() {
       const file = document.getElementById('logfileInput').files[0];
       if (!file) return alert("Bitte Datei auswählen");
@@ -58,16 +73,8 @@
       const formData = new FormData();
       formData.append("logfile", file);
 
-      try {
-        const res = await fetch(`${API_BASE}/upload-log`, {
-          method: "POST",
-          body: formData
-        });
-        const data = await res.json();
-        document.getElementById("uploadResult").textContent = data.message || data.error || JSON.stringify(data, null, 2);
-      } catch (err) {
-        document.getElementById("uploadResult").textContent = "Fehler beim Upload";
-      }
+      const res = await apiCall(`${API_BASE}/upload-log`, "POST", formData);
+      showResult("uploadResult", res.data.message || res.data.error || res.data);
     }
   </script>
 </body>

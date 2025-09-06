@@ -1,69 +1,22 @@
-async function apiCall(url, method = 'GET', data = null) {
-    try {
-        const options = {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
-        
-        if (data) {
-            options.body = JSON.stringify(data);
-        }
-        
-        const response = await fetch(url, options);
-        const result = await response.json();
-        
-        return { success: response.ok, data: result, status: response.status };
-    } catch (error) {
-        return { success: false, error: error.message };
-    }
-}
-
-function showResult(elementId, result) {
-    const element = document.getElementById(elementId);
-    element.style.display = 'block';
-    element.textContent = JSON.stringify(result, null, 2);
-}
-
-async function testAPI() {
-    const result = await apiCall(`${API_BASE}/`);
-    showResult('testResult', result);
-}
-
-async function testDatabase() {
-    const result = await apiCall(`${API_BASE}/test`);
-    showResult('testResult', result);
-}
-
-
-function showResult(id, result) {
-  const el = document.getElementById(id);
-  el.textContent = typeof result === "string"
-    ? result
-    : JSON.stringify(result, null, 2);
-}
-
+/**
+ * Lädt eine Logdatei hoch und zeigt das Ergebnis an.
+ * @returns {Promise<void>}
+ */
 async function uploadLog() {
-  const file = document.getElementById('logfileInput').files[0];
+  const file = document.getElementById('logfileInput')?.files[0];
   if (!file) return alert("Bitte Datei auswählen");
 
   const formData = new FormData();
   formData.append("logfile", file);
 
-  try {
-    const res = await fetch(`${API_BASE}/upload-log`, {
-      method: "POST",
-      body: formData
-    });
-    const data = await res.json();
-    showResult("uploadResult", data.message || data.error || data);
-  } catch (err) {
-    showResult("uploadResult", "Fehler beim Upload");
-  }
+  const res = await apiCall(`${API_BASE}/upload-log`, "POST", formData);
+  showResult("uploadResult", res.data.message || res.data.error || res.data);
 }
 
-
+/**
+ * Sucht Logs mit den angegebenen Filtern und zeigt die Ergebnisse an.
+ * @returns {Promise<void>}
+ */
 async function searchLogs() {
   const params = new URLSearchParams();
   const q = document.getElementById("searchQuery").value;
@@ -76,33 +29,68 @@ async function searchLogs() {
   if (comp) params.append("component", comp);
   if (time) params.append("from_time", time);
 
-  try {
-    const res = await fetch(`${API_BASE}/search?${params.toString()}`);
-    const data = await res.json();
-    showResult("searchResults", data.logs || data);
-  } catch (err) {
-    showResult("searchResults", "Fehler bei der Suche");
-  }
+  const res = await apiCall(`${API_BASE}/search?${params.toString()}`);
+  showResult("searchResults", res.data.logs || res.data);
 }
 
-
+/**
+ * Holt die Statistik der Log-Level und zeigt sie an.
+ * @returns {Promise<void>}
+ */
 async function getStats() {
-  try {
-    const res = await fetch(`${API_BASE}/stats/levels`);
-    const data = await res.json();
-    showResult("statsResult", data.levels || data);
-  } catch (err) {
-    showResult("statsResult", "Fehler beim Abrufen der Statistik");
-  }
+  const res = await apiCall(`${API_BASE}/stats/levels`);
+  showResult("statsResult", res.data.levels || res.data);
 }
 
-
+/**
+ * Lädt alle Logs (bis zu 1000) und zeigt sie an.
+ * @returns {Promise<void>}
+ */
 async function loadAllLogs() {
-  try {
-    const res = await fetch(`${API_BASE}/search?size=1000`);
-    const data = await res.json();
-    showResult("searchResults", data.logs || data);
-  } catch (err) {
-    showResult("searchResults", "Fehler beim Laden der Logs");
-  }
+  const res = await apiCall(`${API_BASE}/search?size=1000`);
+  showResult("searchResults", res.data.logs || res.data);
 }
+
+/**
+ * Holt die Timeline-Statistik (Logs pro Stunde und Level) und zeigt sie an.
+ * @returns {Promise<void>}
+ */
+async function getTimeline() {
+  const res = await apiCall(`${API_BASE}/stats/timeline`);
+  const data = res.data.timeline || res.data;
+
+  if (!data.logs_over_time?.buckets) {
+    return showResult("timelineResult", data);
+  }
+
+  const lines = data.logs_over_time.buckets.map(bucket => {
+    const time = bucket.key_as_string || bucket.key;
+    const levels = bucket.levels?.buckets || [];
+    const levelCounts = levels.map(l => `${l.key}: ${l.doc_count}`).join(", ");
+    return `${time} → ${levelCounts}`;
+  });
+
+  document.getElementById("timelineResult").textContent = lines.join("\n");
+}
+
+/**
+ * Holt die Top-Komponenten mit ERROR-Logs und zeigt sie an.
+ * @returns {Promise<void>}
+ */
+async function getTopErrorComponents() {
+  const res = await apiCall(`${API_BASE}/stats/errors/components`);
+  const data = res.data.top_error_components || res.data;
+
+  if (!data.top_components?.buckets) {
+    return showResult("topErrorComponentsResult", data);
+  }
+
+  const lines = data.top_components.buckets.map(b =>
+    `${b.key}: ${b.doc_count}`
+  );
+
+  document.getElementById("topErrorComponentsResult").textContent = lines.join("\n");
+}
+
+
+

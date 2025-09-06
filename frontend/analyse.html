@@ -28,13 +28,26 @@
     <pre id="searchResults"></pre>
   </section>
 
+    <section>
+        <h2>Statistik: Anzahl pro Log-Level</h2>
+        <button onclick="getStats()">Level-Übersicht abrufen</button>
+        <pre id="statsResult"></pre>
+    </section>
+
+
   <section>
-    <h2>Statistik: Anzahl pro Log-Level</h2>
-    <button onclick="getStats()">Level-Übersicht abrufen</button>
-    <pre id="statsResult"></pre>
-  </section>
+    <h2>Erweiterte Statistiken</h2>
+    <button onclick="getTimeline()">Logs pro Stunde (nach Level)</button>
+    <pre id="timelineResult"></pre>
+
+    <button onclick="getTopErrorComponents()">Top Komponenten mit ERRORs</button>
+    <pre id="topErrorComponentsResult"></pre>
+
+
+
 
   <script src="config.js"></script>
+  <script src="utils.js"></script>
   <script src="analyse.js"></script>
 </body>
 </html>
