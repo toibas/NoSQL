@@ -32,9 +32,55 @@
     <button onclick="window.location.href='analyse.html'">Zur Analyse</button>
   </section>
 
+  <section>
+    <h2>Benutzername ändern</h2>
+    <p id="currentUserInfo"></p>
+    <input type="text" id="newUsername" placeholder="Neuer Benutzername" />
+    <button onclick="updateUsername()">Ändern</button>
+    <pre id="updateUserResult"></pre>
+  </section>  
+
   <script src="config.js"></script>
   <script src="utils.js"></script>
   <script>
+  /**
+    * Zeigt aktuelle User-Infos aus localStorage an.
+    * @returns {void}
+    */
+    function renderCurrentUser() {
+      const uid = localStorage.getItem("userId");
+      const uname = localStorage.getItem("username");
+      const el = document.getElementById("currentUserInfo");
+      el.textContent = `Angemeldet als: ${uname} (ID: ${uid})`;
+    }
+
+    /**
+    * Sendet PATCH zum Aktualisieren des Benutzernamens.
+    * @returns {Promise<void>}
+    */
+    async function updateUsername() {
+      const uid = localStorage.getItem("userId");
+      if (!uid) {
+        showResult("updateUserResult", "Keine User-ID gefunden. Bitte einloggen.");
+        return;
+      }
+      const newUsername = document.getElementById("newUsername").value;
+      if (!newUsername) {
+        showResult("updateUserResult", "Bitte neuen Benutzernamen eingeben.");
+        return;
+      }
+
+      const res = await apiCall(`${API_BASE}/user/${uid}`, "PATCH", { username: newUsername });
+      if (res.success) {
+        // localStorage aktualisieren und Anzeige refreshen
+        localStorage.setItem("username", res.data.username || newUsername);
+        renderCurrentUser();
+      }
+      showResult("updateUserResult", res.data?.message || res.data?.error || res.error || res);
+    }
+
+    renderCurrentUser();
+
     /**
      * Testet, ob die API erreichbar ist und zeigt das Ergebnis an.
      * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
@@ -76,6 +122,7 @@
       const res = await apiCall(`${API_BASE}/upload-log`, "POST", formData);
       showResult("uploadResult", res.data.message || res.data.error || res.data);
     }
+
   </script>
 </body>
 </html>

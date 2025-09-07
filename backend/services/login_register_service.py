@@ -6,59 +6,73 @@ class LoginRegisterService:
     def register(self, username: str, password: str):
         """
         Registriert einen neuen Benutzer.
-
-        Args:
-            username (str): Benutzername.
-            password (str): Passwort.
-
-        Returns:
-            dict: Ergebnis der Registrierung.
-
-        Raises:
-            RuntimeError: Bei Fehlern oder wenn der Benutzer bereits existiert.
         """
         try:
             body = {"query": {"term": {"username": username}}}
             res = self.db.search(self.index, body)
-            if res["hits"]["total"]["value"] > 0:
+            total = res.get("hits", {}).get("total", {})
+            total_value = total.get("value", 0) if isinstance(total, dict) else (total or 0)
+            if total_value > 0:
                 raise ValueError("Benutzer existiert bereits")
 
             doc = {"username": username, "password": password}
-            self.db.insert(self.index, doc)
-            return {"success": True, "message": "Registrierung erfolgreich"}
+            ins = self.db.insert(self.index, doc)
+            items = ins.get("items", [])
+            new_id = items[0].get("index", {}).get("_id") if items else None
+            return {"success": True, "message": "Registrierung erfolgreich", "id": new_id, "username": username}
         except Exception as e:
             print(f"[register] Fehler: {e}")
             raise RuntimeError(f"Fehler bei Registrierung: {e}")
 
     def login(self, username: str, password: str):
         """
-        Loggt einen Benutzer ein.
-
-        Args:
-            username (str): Benutzername.
-            password (str): Passwort.
-
-        Returns:
-            dict: Ergebnis des Logins.
-
-        Raises:
-            RuntimeError: Bei Fehlern oder ungültigen Zugangsdaten.
+        Loggt einen Benutzer ein und gibt bei Erfolg _id und username zurück.
         """
         try:
             body = {
                 "query": {
                     "bool": {
-                        "must": [
+                        "filter": [
                             {"term": {"username": username}},
                             {"term": {"password": password}}
                         ]
                     }
-                }
+                },
+                "_source": ["username"]
             }
-            res = self.db.search(self.index, body)
-            if res["hits"]["total"]["value"] > 0:
-                return {"success": True, "message": "Login erfolgreich"}
+            res = self.db.search(index=self.index, body=body)
+            hits = res.get("hits", {}).get("hits", [])
+            if hits:
+                doc = hits[0]
+                return {
+                    "success": True,
+                    "message": "Login erfolgreich",
+                    "id": doc.get("_id"),
+                    "username": doc.get("_source", {}).get("username"),
+                }
             raise ValueError("Login fehlgeschlagen")
         except Exception as e:
             print(f"[login] Fehler: {e}")
             raise RuntimeError(f"Fehler bei Login: {e}")
+
+    def update_user(self, user_id: str, new_username: str):
+        """
+        Aktualisiert Benutzerdaten. Aktuell werden Benutzername und/oder Passwort unterstützt.
+        """
+        try:
+            fields = {}
+            if new_username:
+                fields["username"] = new_username
+
+            self.db.update(self.index, user_id, fields, refresh=True)
+            g = self.db.get(self.index, user_id)
+            source = g.get("_source", {}) if isinstance(g, dict) else {}
+            return {
+                "success": True,
+                "message": "Benutzer aktualisiert",
+                "id": user_id,
+                "username": source.get("username", new_username),
+            }
+        except Exception as e:
+            print(f"[update_user] Fehler: {e}")
+            raise RuntimeError(f"Fehler beim Aktualisieren des Benutzers: {e}")

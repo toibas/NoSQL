@@ -163,16 +163,6 @@ class FlaskApp:
 
         @self.app.route("/login", methods=["POST"])
         def login():
-            """
-            Loggt einen Benutzer ein.
-
-            Request-Body:
-                username (str): Benutzername.
-                password (str): Passwort.
-
-            Returns:
-                dict: Ergebnis des Logins oder Fehler.
-            """
             try:
                 data = request.get_json()
                 username = data.get("username")
@@ -181,6 +171,17 @@ class FlaskApp:
                 return result, 200
             except Exception as e:
                 return {"error": str(e)}, 401
+
+        @self.app.route("/user/<user_id>", methods=["PATCH"])
+        def update_user(user_id):
+            try:
+                data = request.get_json() or {}
+                new_username = data.get("username")
+                result = self.login_register_service.update_user(user_id, new_username)
+                return result, 200
+            except Exception as e:
+                return {"error": str(e)}, 400
+
 
         @self.app.route("/stats/timeline", methods=["GET"])
         def stats_timeline():

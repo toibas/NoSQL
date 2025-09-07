@@ -25,7 +25,7 @@ class LogfilesService:
             print(f"[delete_all_logs] Fehler: {e}")
             return False
 
-    def prepare_bulk_payload_from_log(self, file_path: str) -> str:
+    def prepare_bulk_payload_from_log(self, file_path: str):
         """
         Bereitet einen Bulk-Payload aus einer Logdatei für Elasticsearch vor.
 
@@ -67,7 +67,7 @@ class LogfilesService:
             print(f"[prepare_bulk_payload_from_log] Fehler: {e}")
             raise RuntimeError(f"Fehler beim Verarbeiten der Logdatei: {e}")
 
-    def prepare_bulk_payload_from_json(self, file_path: str) -> str:
+    def prepare_bulk_payload_from_json(self, file_path: str):
         """
         Bereitet einen Bulk-Payload aus einer JSON-Datei für Elasticsearch vor.
 

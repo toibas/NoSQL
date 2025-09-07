@@ -117,3 +117,51 @@ class Database:
         except Exception as e:
             print(f"[insert] Fehler: {e}")
             raise RuntimeError(f"Fehler beim Einfügen des Dokuments in Elasticsearch: {e}")
+        
+    def get(self, index: str, doc_id: str):
+        """
+        Holt ein Dokument per ID.
+
+        Args:
+            index (str): Name des Index.
+            doc_id (str): Dokument-ID.
+
+        Returns:
+            dict: Elasticsearch-Get-Antwort.
+
+        Raises:
+            RuntimeError: Bei Fehlern beim Abruf.
+        """
+        try:
+            response = self.session.get(f"{self.base_url}/{index}/_doc/{doc_id}")
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"[get] Fehler: {e}")
+            raise RuntimeError(f"Fehler beim Abrufen des Dokuments: {e}")
+
+    def update(self, index: str, doc_id: str, fields: dict, refresh: bool = False):
+        """
+        Aktualisiert Felder eines Dokuments per ID.
+
+        Args:
+            index (str): Name des Index.
+            doc_id (str): Dokument-ID.
+            fields (dict): Zu aktualisierende Felder.
+            refresh (bool, optional): Ob der Index nach Update sofort refresht werden soll.
+
+        Returns:
+            dict: Elasticsearch-Update-Antwort.
+
+        Raises:
+            RuntimeError: Bei Fehlern beim Update.
+        """
+        try:
+            params = "?refresh=true" if refresh else ""
+            payload = {"doc": fields}
+            response = self.session.post(f"{self.base_url}/{index}/_update/{doc_id}{params}", json=payload)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"[update] Fehler: {e}")
+            raise RuntimeError(f"Fehler beim Update des Dokuments: {e}")

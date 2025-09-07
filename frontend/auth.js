@@ -34,6 +34,10 @@ async function login() {
 
   if (res.success) {
     localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("userId", res.data.id);
+    localStorage.setItem("username", res.data.username);
     window.location.href = "main.html";
   }
 }
+
+
