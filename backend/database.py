@@ -13,11 +13,11 @@ class Database:
         """
         Testet die Verbindung zu Elasticsearch.
 
-        Returns:
-            bool: True, wenn die Verbindung erfolgreich ist.
-
         Raises:
             RuntimeError: Bei Fehlern bei der Verbindung.
+
+        Returns:
+            bool: True, wenn die Verbindung erfolgreich ist.
         """
         try:
             response = self.session.get(self.base_url)
@@ -34,11 +34,11 @@ class Database:
         Args:
             index (str): Name des Index.
 
-        Returns:
-            bool: True, wenn erfolgreich.
-
         Raises:
             RuntimeError: Bei Fehlern beim Löschen.
+
+        Returns:
+            bool: True, wenn erfolgreich.
         """
         try:
             response = self.session.post(f"{self.base_url}/{index}/_delete_by_query", json={"query": {"match_all": {}}})
@@ -56,11 +56,11 @@ class Database:
             index (str): Name des Index.
             body (dict): Such-Query.
 
-        Returns:
-            dict: Ergebnis der Suche.
-
         Raises:
             RuntimeError: Bei Fehlern bei der Suche.
+
+        Returns:
+            dict: Ergebnis der Suche.
         """
         try:
             response = self.session.post(f"{self.base_url}/{index}/_search", json=body)
@@ -75,13 +75,13 @@ class Database:
         Führt einen Bulk-Insert in Elasticsearch aus.
 
         Args:
-            payload (str): NDJSON-Payload.
-
-        Returns:
-            dict: Ergebnis des Bulk-Inserts.
+            payload (str): JSON-Payload.
 
         Raises:
             RuntimeError: Bei Fehlern beim Bulk-Insert.
+
+        Returns:
+            dict: Ergebnis des Bulk-Inserts.
         """
         headers = {'Content-Type': 'application/x-ndjson'}
         try:
@@ -104,11 +104,11 @@ class Database:
             index (str): Name des Index.
             doc (dict): Dokumentdaten.
 
-        Returns:
-            dict: Ergebnis des Inserts.
-
         Raises:
             RuntimeError: Bei Fehlern beim Einfügen.
+
+        Returns:
+            dict: Ergebnis des Inserts.
         """
         action = {"index": {"_index": index}}
         payload = f"{json.dumps(action)}\n{json.dumps(doc)}\n"
@@ -126,11 +126,11 @@ class Database:
             index (str): Name des Index.
             doc_id (str): Dokument-ID.
 
-        Returns:
-            dict: Elasticsearch-Get-Antwort.
-
         Raises:
             RuntimeError: Bei Fehlern beim Abruf.
+
+        Returns:
+            dict: Elasticsearch-Get-Antwort.
         """
         try:
             response = self.session.get(f"{self.base_url}/{index}/_doc/{doc_id}")
@@ -150,11 +150,11 @@ class Database:
             fields (dict): Zu aktualisierende Felder.
             refresh (bool, optional): Ob der Index nach Update sofort refresht werden soll.
 
-        Returns:
-            dict: Elasticsearch-Update-Antwort.
-
         Raises:
             RuntimeError: Bei Fehlern beim Update.
+
+        Returns:
+            dict: Elasticsearch-Update-Antwort.
         """
         try:
             params = "?refresh=true" if refresh else ""

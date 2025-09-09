@@ -3,10 +3,10 @@ class HealthService:
         self.db = database
     
     def check_elasticsearch(self):
-        """Check the connection to Elasticsearch.
+        """Überprüfe die Verbindung zu Elasticsearch.
 
         Returns:
-            bool: True if the connection is successful, False otherwise.
+            bool: True wenn die Verbindung erfolgreich ist, sonst False.
         """
         if self.db.test_connection():
             return True

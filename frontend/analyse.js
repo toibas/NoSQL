@@ -1,5 +1,5 @@
 /**
- * Lädt eine Logdatei hoch und zeigt das Ergebnis an.
+ * Lädt eine Logdatei hoch.
  * @returns {Promise<void>}
  */
 async function uploadLog() {
@@ -14,50 +14,50 @@ async function uploadLog() {
 }
 
 /**
- * Sucht Logs mit den angegebenen Filtern und zeigt die Ergebnisse an.
+ * Sucht Logs mit den angegebenen Filtern.
  * @returns {Promise<void>}
  */
 async function searchLogs() {
   const params = new URLSearchParams();
-  const q = document.getElementById("searchQuery").value;
-  const level = document.getElementById("levelFilter").value;
-  const comp = document.getElementById("componentFilter").value;
-  const time = document.getElementById("timeFilter").value;
+  const searchQuery = document.getElementById("searchQuery").value;
+  const levelFilter = document.getElementById("levelFilter").value;
+  const componentFilter = document.getElementById("componentFilter").value;
+  const timeFilter = document.getElementById("timeFilter").value;
 
-  if (q) params.append("q", q);
-  if (level) params.append("level", level);
-  if (comp) params.append("component", comp);
-  if (time) params.append("from_time", time);
+  if (searchQuery) params.append("q", searchQuery);
+  if (levelFilter) params.append("level", levelFilter);
+  if (componentFilter) params.append("component", componentFilter);
+  if (timeFilter) params.append("from_time", timeFilter);
 
-  const res = await apiCall(`${API_BASE}/search?${params.toString()}`);
-  showResult("searchResults", res.data.logs || res.data);
+  const result = await apiCall(`${API_BASE}/search?${params.toString()}`);
+  showResult("searchResults", result.data.logs || result.data);
 }
 
 /**
- * Holt die Statistik der Log-Level und zeigt sie an.
+ * Holt die Statistik der Log-Level.
  * @returns {Promise<void>}
  */
 async function getStats() {
-  const res = await apiCall(`${API_BASE}/stats/levels`);
-  showResult("statsResult", res.data.levels || res.data);
+  const result = await apiCall(`${API_BASE}/stats/levels`);
+  showResult("statsResult", result.data.levels || result.data);
 }
 
 /**
- * Lädt alle Logs (bis zu 1000) und zeigt sie an.
+ * Lädt alle Logs (bis zu 1000).
  * @returns {Promise<void>}
  */
 async function loadAllLogs() {
-  const res = await apiCall(`${API_BASE}/search?size=1000`);
-  showResult("searchResults", res.data.logs || res.data);
+  const result = await apiCall(`${API_BASE}/search?size=1000`);
+  showResult("searchResults", result.data.logs || result.data);
 }
 
 /**
- * Holt die Timeline-Statistik (Logs pro Stunde und Level) und zeigt sie an.
+ * Holt die Timeline-Statistik (Logs pro Stunde und Level).
  * @returns {Promise<void>}
  */
 async function getTimeline() {
-  const res = await apiCall(`${API_BASE}/stats/timeline`);
-  const data = res.data.timeline || res.data;
+  const result = await apiCall(`${API_BASE}/stats/timeline`);
+  const data = result.data.timeline || result.data;
 
   if (!data.logs_over_time?.buckets) {
     return showResult("timelineResult", data);
@@ -74,12 +74,12 @@ async function getTimeline() {
 }
 
 /**
- * Holt die Top-Komponenten mit ERROR-Logs und zeigt sie an.
+ * Holt die Top-Komponenten mit ERROR-Logs.
  * @returns {Promise<void>}
  */
 async function getTopErrorComponents() {
-  const res = await apiCall(`${API_BASE}/stats/errors/components`);
-  const data = res.data.top_error_components || res.data;
+  const result = await apiCall(`${API_BASE}/stats/errors/components`);
+  const data = result.data.top_error_components || result.data;
 
   if (!data.top_components?.buckets) {
     return showResult("topErrorComponentsResult", data);

@@ -35,9 +35,11 @@ async function apiCall(url, method = 'GET', data = null, headers = {}) {
  * @returns {void} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
  */
 function showResult(elementId, result) {
-  const el = document.getElementById(elementId);
-  el.textContent =
-    typeof result === "string"
-      ? result
-      : JSON.stringify(result, null, 2);
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  if (typeof result === "string") {
+    element.textContent = result;
+  } else {
+    element.textContent = JSON.stringify(result, null, 2);
+  }
 }

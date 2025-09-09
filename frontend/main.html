@@ -43,15 +43,17 @@
   <script src="config.js"></script>
   <script src="utils.js"></script>
   <script>
+
+    loadCurrentUser();
   /**
     * Zeigt aktuelle User-Infos aus localStorage an.
     * @returns {void}
     */
-    function renderCurrentUser() {
-      const uid = localStorage.getItem("userId");
-      const uname = localStorage.getItem("username");
-      const el = document.getElementById("currentUserInfo");
-      el.textContent = `Angemeldet als: ${uname} (ID: ${uid})`;
+    function loadCurrentUser() {
+      const userId = localStorage.getItem("userId");
+      const username = localStorage.getItem("username");
+      const element = document.getElementById("currentUserInfo");
+      element.textContent = `Angemeldet als: ${username} (ID: ${userId})`;
     }
 
     /**
@@ -59,8 +61,8 @@
     * @returns {Promise<void>}
     */
     async function updateUsername() {
-      const uid = localStorage.getItem("userId");
-      if (!uid) {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
         showResult("updateUserResult", "Keine User-ID gefunden. Bitte einloggen.");
         return;
       }
@@ -70,24 +72,22 @@
         return;
       }
 
-      const res = await apiCall(`${API_BASE}/user/${uid}`, "PATCH", { username: newUsername });
-      if (res.success) {
+      const result = await apiCall(`${API_BASE}/user/${userId}`, "PATCH", { username: newUsername });
+      if (result.success) {
         // localStorage aktualisieren und Anzeige refreshen
-        localStorage.setItem("username", res.data.username || newUsername);
-        renderCurrentUser();
+        localStorage.setItem("username", result.data.username || newUsername);
+        loadCurrentUser();
       }
-      showResult("updateUserResult", res.data?.message || res.data?.error || res.error || res);
+      showResult("updateUserResult", result.data?.message || result.data?.error || result.error || result);
     }
-
-    renderCurrentUser();
 
     /**
      * Testet, ob die API erreichbar ist und zeigt das Ergebnis an.
      * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
      */
     async function testAPI() {
-      const res = await apiCall(`${API_BASE}/`);
-      showResult('testResult', res.data || res.error);
+      const result = await apiCall(`${API_BASE}/`);
+      showResult('testResult', result.data || result.error);
     }
 
     /**
@@ -95,8 +95,8 @@
      * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
      */
     async function testDatabase() {
-      const res = await apiCall(`${API_BASE}/test`);
-      showResult('testResult', res.data || res.error);
+      const result = await apiCall(`${API_BASE}/test`);
+      showResult('testResult', result.data || result.error);
     }
 
     /**
@@ -104,8 +104,8 @@
      * @returns {Promise<void>} Es wird nichts zurückgegeben, das Ergebnis wird angezeigt.
      */
     async function deleteLogs() {
-      const res = await apiCall(`${API_BASE}/delete-logs`, "DELETE");
-      showResult("deleteResult", res.data.message || res.data.error || res.data);
+      const result = await apiCall(`${API_BASE}/delete-logs`, "DELETE");
+      showResult("deleteResult", result.data.message || result.data.error || result.data);
     }
 
     /**
@@ -119,8 +119,8 @@
       const formData = new FormData();
       formData.append("logfile", file);
 
-      const res = await apiCall(`${API_BASE}/upload-log`, "POST", formData);
-      showResult("uploadResult", res.data.message || res.data.error || res.data);
+      const result = await apiCall(`${API_BASE}/upload-log`, "POST", formData);
+      showResult("uploadResult", result.data.message || result.data.error || result.data);
     }
 
   </script>
