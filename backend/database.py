@@ -6,8 +6,9 @@ import config
 class Database:
     def __init__(self):
         self.base_url = config.ELASTICSEARCH_URL
+        self.api_key = config.API_KEY
         self.session = requests.Session()
-        self.session.headers.update({'Content-Type': 'application/json'})
+        self.session.headers.update({'Content-Type': 'application/json', 'Authorization': f'ApiKey {self.api_key}'})
 
     def test_connection(self):
         """

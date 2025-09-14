@@ -5,7 +5,7 @@ from flask_cors import CORS
 class FlaskApp:
     def __init__(self, logfiles_service, health_service, analytics_service, login_register_service):
         self.app = Flask(__name__)
-        CORS(self.app)
+        CORS(self.app) # Erlaubt Cross-Origin Requests
         self.logfiles_service = logfiles_service
         self.health_service = health_service
         self.analytics_service = analytics_service
